@@ -1,23 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function Key({label, onClick}) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <button onClick={onClick}>
+      {label}
+    </button>
+  );
+}
+
+function Display() {
+  return (
+    <>0</>
+  );
+}
+
+function App() {
+  const clickHandler = (e) => {
+    e.preventDefault();
+    const value  = e.target.innerHTML;
+    console.log(value);
+  }
+
+  return (
+    <div className='App'>
+      <div className='Calc'>
+        <div className='Disp'>
+          <Display />
+        </div>
+        <div className='Buttons'>
+          <Key label={7} onClick={clickHandler}/>
+          <Key label={8} onClick={clickHandler}/>
+          <Key label={9} onClick={clickHandler}/>
+          <Key label={'÷'} onClick={clickHandler}/>
+          <Key label={4} onClick={clickHandler}/>
+          <Key label={5} onClick={clickHandler}/>
+          <Key label={6} onClick={clickHandler}/>
+          <Key label={'×'} onClick={clickHandler}/>
+          <Key label={1} onClick={clickHandler}/>
+          <Key label={2} onClick={clickHandler}/>
+          <Key label={3} onClick={clickHandler}/>
+          <Key label={'−'} onClick={clickHandler}/>
+          <Key label={'C'} onClick={clickHandler}/>
+          <Key label={0} onClick={clickHandler}/>
+          <Key label={'='} onClick={clickHandler}/>
+          <Key label={'+'} onClick={clickHandler}/>
+        </div>
+      </div>
     </div>
   );
 }
