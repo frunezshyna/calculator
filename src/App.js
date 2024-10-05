@@ -1,51 +1,128 @@
 import './App.css';
+import { useState } from "react";
 
-function Key({label, onClick}) {
+function Key({ label, clickHandler }) {
   return (
-    <button onClick={onClick}>
+    <button onClick={clickHandler}>
       {label}
     </button>
-  );
+  )
 }
 
-function Display() {
+function Display({ display }) {
   return (
-    <>0</>
+    <div className="Display">
+      {display}
+    </div>
   );
 }
 
 function App() {
-  const clickHandler = (e) => {
+
+  const [disp, setDisp] = useState(0);
+  const [num1, setNum1] = useState(null);
+  const [num2, setNum2] = useState(null);
+  const [op, setOp] = useState(null);
+
+  const numClickHandler = (e) => {
     e.preventDefault();
-    const value  = e.target.innerHTML;
-    console.log(value);
+    const value = e.target.innerHTML;
+
+    if (num1 === null) {
+      setNum1(value);
+      setDisp(value);
+    } else if (op === null) {
+      setNum1(num1 + value);
+      setDisp(num1 + value);
+    } else {
+      if (num2 === null) {
+        setNum2(value);
+        setDisp(value);
+      } else {
+        setNum2(num2 + value);
+        setDisp(num2 + value);
+      }
+    }
+  }
+
+  const opClickHandler = (e) => {
+    e.preventDefault();
+    const value = e.target.innerHTML;
+    setOp(value);
+    setDisp(value);
+  }
+
+  const equalsClickHandler = () => {
+    if (num1 !== null && num2 !== null && op !== null) {
+      let result;
+      switch (op) {
+        case "+":
+          result = parseInt(num1) + parseInt(num2);
+          break;
+        case "-":
+          result = parseInt(num1) - parseInt(num2);
+          break;
+        case "*":
+          result = parseInt(num1) * parseInt(num2);
+          break;
+        case "÷":
+          result = parseInt(num1) / parseInt(num2);
+          break;
+        default:
+          result = 0;
+      }
+      setDisp(result);
+      setNum1(null);
+      setNum2(null);
+      setOp(null);
+    }
+  }
+
+  const clearClickHandler = () => {
+    setDisp(0);
+    setNum1(null);
+    setNum2(null);
+    setOp(null);
+  }
+
+  // 2nd requirement
+  const displayMessage = () => {
+    setDisp("Frunez Shyna Cayanan");
   }
 
   return (
-    <div className='App'>
-      <div className='Calc'>
-        <div className='Disp'>
-          <Display />
+    <div className="App">
+
+      {/* First Requirement */}
+      <h1>Calculator of Frunez Shyna Cayanan - IT3A</h1>
+      <div className="Calc">
+        <div className="Disp">
+          <Display display={disp}/>
         </div>
-        <div className='Buttons'>
-          <Key label={7} onClick={clickHandler}/>
-          <Key label={8} onClick={clickHandler}/>
-          <Key label={9} onClick={clickHandler}/>
-          <Key label={'÷'} onClick={clickHandler}/>
-          <Key label={4} onClick={clickHandler}/>
-          <Key label={5} onClick={clickHandler}/>
-          <Key label={6} onClick={clickHandler}/>
-          <Key label={'×'} onClick={clickHandler}/>
-          <Key label={1} onClick={clickHandler}/>
-          <Key label={2} onClick={clickHandler}/>
-          <Key label={3} onClick={clickHandler}/>
-          <Key label={'−'} onClick={clickHandler}/>
-          <Key label={'C'} onClick={clickHandler}/>
-          <Key label={0} onClick={clickHandler}/>
-          <Key label={'='} onClick={clickHandler}/>
-          <Key label={'+'} onClick={clickHandler}/>
+        <div className="Buttons">
+          <Key label={7}clickHandler={numClickHandler}/>
+          <Key label={8}clickHandler={numClickHandler}/>
+          <Key label={9}clickHandler={numClickHandler}/>
+          <Key label={"÷"}clickHandler={opClickHandler}/>
+          <Key label={4}clickHandler={numClickHandler}/>
+          <Key label={5}clickHandler={numClickHandler}/>
+          <Key label={6}clickHandler={numClickHandler}/>
+          <Key label={"*"}clickHandler={opClickHandler}/>
+          <Key label={1}clickHandler={numClickHandler}/>
+          <Key label={2}clickHandler={numClickHandler}/>
+          <Key label={3}clickHandler={numClickHandler}/>
+          <Key label={"-"}clickHandler={opClickHandler}/>
+          <Key label={"C"}clickHandler={clearClickHandler}/>
+          <Key label={0}clickHandler={numClickHandler}/>
+          <Key label={"="}clickHandler={equalsClickHandler}/>
+          <Key label={"+"}clickHandler={opClickHandler}/>
         </div>
       </div>
+
+      {/* 2nd Requirement */}
+      <button className="surname" onClick={displayMessage}>
+        CAYANAN
+      </button>
     </div>
   );
 }
